@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aria — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+<div id="login-panel" class="login-panel">
+  <div class="login-card">
+    <div class="rail-brand" style="justify-content: center; margin-bottom: 24px;">
+      <span class="brand-mark">A</span>
+      <span class="brand-name">Aria Admin</span>
+    </div>
+    <form id="login-form">
+      <input type="email" id="login-email" placeholder="Email (admin@fireai.com)" required style="width: 100%; margin-bottom: 12px; padding: 10px; border-radius: 8px; border: 1px solid var(--border);" />
+      <input type="password" id="login-password" placeholder="Password (1234)" required style="width: 100%; margin-bottom: 16px; padding: 10px; border-radius: 8px; border: 1px solid var(--border);" />
+      <div id="login-error" style="color: var(--accent-danger); font-size: 13px; margin-bottom: 12px; display: none; text-align: center;">Invalid credentials.</div>
+      <button type="submit" style="width: 100%; padding: 12px; border-radius: 8px; background: var(--accent-primary); color: white; border: none; font-weight: 600; cursor: pointer;">Log In</button>
+    </form>
+  </div>
+</div>
+
+<div id="admin-content" style="display: none;">
+<div class="shell admin-shell">
+
+  <!-- LEFT: admin navigation -->
+  <aside class="rail">
+    <div class="rail-brand">
+      <span class="brand-mark">A</span>
+      <span class="brand-name">Aria</span>
+    </div>
+    <div class="rail-subtitle">Admin</div>
+
+    <nav class="rail-nav">
+      <button class="rail-item active" data-view="tickets">
+        <span class="rail-dot"></span> Leads
+      </button>
+      <button class="rail-item" data-view="properties">
+        <span class="rail-dot"></span> Properties
+      </button>
+      <button class="rail-item" data-view="viewings">
+        <span class="rail-dot"></span> Viewings
+      </button>
+    </nav>
+
+    <div class="rail-section">
+      <a class="rail-btn-ghost" href="/" style="display:block; text-align:center; text-decoration:none;">Open customer chat ↗</a>
+    </div>
+
+    <div class="rail-footer">Internal admin — not visible to customers</div>
+    
+    <div style="margin-top: 16px; text-align: center;">
+      <button id="logout-btn" class="rail-btn-ghost" style="color: var(--accent-danger);">Log Out</button>
+    </div>
+  </aside>
+
+  <!-- MAIN: full-width admin content (no chat, no analysis panel) -->
+  <main class="stage admin-stage">
+
+    <section class="view" id="view-tickets">
+      <div class="view-header">
+        <h2>Leads</h2>
+        <div class="filters">
+          <select id="filter-status">
+            <option value="">All status</option>
+            <option value="open">Open</option>
+            <option value="in_progress">In progress</option>
+            <option value="resolved">Resolved</option>
+            <option value="closed">Closed</option>
+          </select>
+          <select id="filter-priority">
+            <option value="">All priority</option>
+            <option value="urgent">Urgent</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+          <button id="refresh-tickets" class="rail-btn-ghost">Refresh</button>
+        </div>
+      </div>
+      <div class="ticket-list" id="ticket-list"></div>
+    </section>
+
+    <section class="view hidden" id="view-properties">
+      <div class="view-header">
+        <h2>Properties</h2>
+        <div class="filters">
+          <input type="text" id="filter-city" placeholder="Filter by city…" />
+          <button id="refresh-properties" class="rail-btn-ghost">Refresh</button>
+        </div>
+      </div>
+
+      <form class="kb-form" id="property-form">
+        <input type="text" id="prop-title" placeholder="Title (e.g. Sunny 2BR near Downtown)" required />
+        <div class="prop-row">
+          <select id="prop-listing-type">
+            <option value="rent">For rent</option>
+            <option value="sale">For sale</option>
+          </select>
+          <input type="text" id="prop-city" placeholder="City" required />
+          <input type="text" id="prop-neighborhood" placeholder="Neighborhood" />
+        </div>
+        <div class="prop-row">
+          <input type="number" id="prop-price" placeholder="Price ($)" required />
+          <input type="number" id="prop-bedrooms" placeholder="Bedrooms" />
+          <input type="number" step="0.5" id="prop-bathrooms" placeholder="Bathrooms" />
+          <input type="number" id="prop-sqft" placeholder="Sqft" />
+        </div>
+        <input type="text" id="prop-address" placeholder="Address" />
+        <input type="text" id="prop-features" placeholder="Features, comma separated (parking, pet_friendly, furnished)" />
+        <textarea id="prop-description" rows="4" placeholder="Description…" required></textarea>
+        <button type="submit">Add property listing</button>
+      </form>
+      <div class="kb-status" id="property-status"></div>
+
+      <div class="csv-import-box">
+        <div class="a-label">Or bulk import from CSV</div>
+        <div class="csv-import-row">
+          <input type="file" id="csv-file-input" accept=".csv" />
+          <button id="csv-upload-btn" class="rail-btn-ghost">Upload CSV</button>
+        </div>
+        <div class="a-sub">Columns: title, listing_type, address, city, neighborhood, price, bedrooms, bathrooms, sqft, features (semicolon-separated), description</div>
+        <div class="kb-status" id="csv-status"></div>
+      </div>
+
+      <div class="property-list" id="property-list"></div>
+    </section>
+
+    <section class="view hidden" id="view-viewings">
+      <div class="view-header">
+        <h2>Viewings</h2>
+        <button id="refresh-viewings" class="rail-btn-ghost">Refresh</button>
+      </div>
+      <div class="viewing-list-wrap" id="viewing-list"></div>
+    </section>
+
+  </main>
+
+</div>
+</div>
+
+<script src="/static/js/admin.js"></script>
+</body>
+</html>
