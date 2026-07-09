@@ -63,17 +63,6 @@ A complete AI-powered real estate customer service and lead generation system. I
    - `SUPABASE_KEY` (use the `service_role` key)
 
 ---
-
-## 2. Running Locally
-
-Run the application using Uvicorn:
-```bash
-uvicorn main:app --reload
-### Admin Dashboard (`/admin`)
-- **Secure Login**: Access the admin panel using the credentials:
-  - **Email:** admin@fireai.com
-  - **Password:** 1234
-
 ## 3. Usage Guide
 
 ### Managing Properties
