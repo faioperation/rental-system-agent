@@ -17,7 +17,6 @@ A complete AI-powered real estate customer service and lead generation system. I
 - **Secure Login**: Access the admin panel using the credentials:
   - **Email:** `admin@fireai.com`
   - **Password:** `1234`
-  *(Once logged in, the session is saved in the browser until you click Log Out).*
 - **Leads Management**: View and filter captured leads (tickets) by status and priority.
 - **Property Management**: Add individual property listings or bulk import them from a CSV file. Each listing is automatically vectorized for AI search.
 - **Knowledge Base**: Add non-property content (policies, FAQs) for the AI to use as context.
